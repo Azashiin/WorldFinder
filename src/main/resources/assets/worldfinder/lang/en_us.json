@@ -1,0 +1,17 @@
+{
+  "worldfinder.configuration.title": "World Finder",
+  "worldfinder.configuration.section.worldfinder.client.toml": "World Finder",
+  "worldfinder.configuration.section.worldfinder.client.toml.title": "World Finder",
+  "worldfinder.configuration.seed": "Seed",
+  "worldfinder.configuration.searchRadiusChunks": "Search radius in chunks",
+  "worldfinder.configuration.maxResults": "Maximum results",
+  "worldfinder.configuration.showSlimeChunks": "Show slime chunks",
+  "worldfinder.configuration.showChunkBorders": "Show chunk borders",
+  "worldfinder.configuration.showBiomeColors": "Show biome colors",
+  "worldfinder.configuration.showStructuresOnMap": "Show structures on full map",
+  "worldfinder.configuration.enabledStructureFilters": "Enabled structure filters",
+  "worldfinder.configuration.selectedBiomeFilters": "Selected biome filters",
+  "worldfinder.configuration.biomeLayer": "Biome layer",
+  "key.category.worldfinder.controls": "World Finder",
+  "key.worldfinder.open": "Open World Finder Map"
+}

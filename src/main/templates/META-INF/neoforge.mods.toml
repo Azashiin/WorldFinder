@@ -1,0 +1,31 @@
+modLoader="javafml"
+loaderVersion="[1,)"
+license="${mod_license}"
+
+[[mods]]
+modId="${mod_id}"
+version="${mod_version}"
+displayName="${mod_name}"
+authors="Asashiin"
+credits="Uses xpple/SeedMapper concepts and generated bindings, xpple/cubiomes, and Cubitect's cubiomes."
+description='''
+World Finder is a client-side seed map for vanilla Minecraft worlds.
+
+It renders seed-based biomes and structure markers in-game, supports Overworld/Nether/End views, and can create waypoints through supported minimap mods when they are installed.
+
+This beta targets Minecraft ${minecraft_version} with NeoForge.
+'''
+
+[[dependencies.${mod_id}]]
+modId="neoforge"
+type="required"
+versionRange="[${neo_version},)"
+ordering="NONE"
+side="CLIENT"
+
+[[dependencies.${mod_id}]]
+modId="minecraft"
+type="required"
+versionRange="${minecraft_version_range}"
+ordering="NONE"
+side="CLIENT"
