@@ -1,0 +1,38 @@
+plugins {
+    id 'java-library'
+}
+
+description = 'Minecraft-independent domain model, cache, and map services for WorldFinder.'
+
+ext {
+    publishedArtifactId = 'worldfinder-core'
+    publishedDisplayName = 'WorldFinder Core'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+    withSourcesJar()
+    withJavadocJar()
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release = 21
+}
+
+dependencies {
+    api project(':api')
+    testImplementation platform('org.junit:junit-bom:5.11.4')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test', Test) {
+    useJUnitPlatform()
+    systemProperty 'worldfinder.targetCatalog',
+            rootProject.file('gradle/worldfinder-targets.json').absolutePath
+}
+
+apply from: rootProject.file('gradle/library-publishing.gradle')

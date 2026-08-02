@@ -1,0 +1,126 @@
+plugins {
+    id 'java-library'
+}
+
+description = 'Stable public contracts for WorldFinder world-generation compatibility addons.'
+
+ext {
+    publishedArtifactId = 'worldfinder-api'
+    publishedDisplayName = 'WorldFinder API'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+    withSourcesJar()
+    withJavadocJar()
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release = 21
+}
+
+def generatedApiSignature = layout.buildDirectory.file('reports/api-signature.txt')
+def apiSignatureBaseline = layout.projectDirectory.file('abi/0.2.0.sha256')
+
+tasks.register('generateApiSignature') {
+    group = 'documentation'
+    description = 'Generates a deterministic reflection signature for the public Java API.'
+    dependsOn tasks.named('classes')
+    inputs.files(sourceSets.main.output.classesDirs)
+            .withPropertyName('apiClasses')
+            .withNormalizer(ClasspathNormalizer)
+    outputs.file(generatedApiSignature)
+
+    doLast {
+        Set<File> apiClassDirectories = inputs.files.files
+        Set<String> classNames = new TreeSet<>()
+        apiClassDirectories.each { classesDirectory ->
+            if (!classesDirectory.isDirectory()) return
+            classesDirectory.eachFileRecurse(groovy.io.FileType.FILES) { classFile ->
+                String relative = classesDirectory.toPath().relativize(classFile.toPath()).toString()
+                if (relative.endsWith('.class')
+                        && !relative.endsWith('module-info.class')
+                        && !relative.endsWith('package-info.class')) {
+                    classNames.add(relative.substring(0, relative.length() - 6)
+                            .replace(File.separatorChar, '.' as char))
+                }
+            }
+        }
+
+        List<String> signature = []
+        URL[] classpath = apiClassDirectories.collect {
+            it.toURI().toURL()
+        } as URL[]
+        new URLClassLoader(classpath, ClassLoader.getPlatformClassLoader()).withCloseable { loader ->
+            classNames.each { className ->
+                Class<?> type = Class.forName(className, false, loader)
+                if (!java.lang.reflect.Modifier.isPublic(type.modifiers)) return
+
+                signature.add("TYPE ${type.toGenericString()}")
+                if (type.superclass != null) {
+                    signature.add("  EXTENDS ${type.genericSuperclass.typeName}")
+                }
+                type.genericInterfaces.collect { it.typeName }.sort().each {
+                    signature.add("  IMPLEMENTS ${it}")
+                }
+                if (type.isRecord()) {
+                    type.recordComponents.collect {
+                        "  RECORD ${it.genericType.typeName} ${it.name}"
+                    }.sort().each(signature::add)
+                }
+
+                List<String> members = []
+                type.declaredFields.findAll {
+                    !it.synthetic && (java.lang.reflect.Modifier.isPublic(it.modifiers)
+                            || java.lang.reflect.Modifier.isProtected(it.modifiers))
+                }.each { members.add("  FIELD ${it.toGenericString()}") }
+                type.declaredConstructors.findAll {
+                    !it.synthetic && (java.lang.reflect.Modifier.isPublic(it.modifiers)
+                            || java.lang.reflect.Modifier.isProtected(it.modifiers))
+                }.each { members.add("  CONSTRUCTOR ${it.toGenericString()}") }
+                type.declaredMethods.findAll {
+                    !it.synthetic && !it.bridge
+                            && (java.lang.reflect.Modifier.isPublic(it.modifiers)
+                            || java.lang.reflect.Modifier.isProtected(it.modifiers))
+                }.each { members.add("  METHOD ${it.toGenericString()}") }
+                members.sort().each(signature::add)
+                signature.add('')
+            }
+        }
+
+        File output = generatedApiSignature.get().asFile
+        output.parentFile.mkdirs()
+        output.setText(signature.join(System.lineSeparator()).trim() + System.lineSeparator(), 'UTF-8')
+    }
+}
+
+tasks.register('verifyApiBinaryContract') {
+    group = 'verification'
+    description = 'Rejects unreviewed source or binary surface changes in the stable API 0.2 line.'
+    dependsOn tasks.named('generateApiSignature')
+    inputs.file(apiSignatureBaseline)
+    inputs.file(generatedApiSignature)
+
+    doLast {
+        String expected = apiSignatureBaseline.asFile.getText('UTF-8').trim()
+        String actual = generatedApiSignature.get().asFile.getText('UTF-8').replace('\r\n', '\n')
+        byte[] digest = java.security.MessageDigest.getInstance('SHA-256')
+                .digest(actual.getBytes(java.nio.charset.StandardCharsets.UTF_8))
+        String actualHash = digest.collect { String.format('%02x', it & 0xff) }.join()
+        if (actualHash != expected) {
+            throw new GradleException(
+                    'The public WorldFinder API signature changed. Review compatibility, use a new ' +
+                            'minor line for breaking changes, and deliberately update api/abi/0.2.0.sha256 ' +
+                            'only for compatible additions.')
+        }
+    }
+}
+
+tasks.named('check') {
+    dependsOn tasks.named('verifyApiBinaryContract')
+}
+
+apply from: rootProject.file('gradle/library-publishing.gradle')
