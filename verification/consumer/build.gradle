@@ -1,0 +1,51 @@
+plugins {
+    id 'base'
+}
+
+def repositoryPath = providers.gradleProperty('worldfinderRepository').get()
+def libraryGroup = providers.gradleProperty('worldfinderGroup').get()
+def libraryVersion = providers.gradleProperty('worldfinderVersion').get()
+
+repositories {
+    maven {
+        name = 'worldFinderUnderTest'
+        url = uri(repositoryPath)
+    }
+    mavenCentral()
+}
+
+configurations {
+    apiArtifacts {
+        canBeConsumed = false
+        canBeResolved = true
+    }
+    coreArtifacts {
+        canBeConsumed = false
+        canBeResolved = true
+    }
+}
+
+dependencies {
+    apiArtifacts "${libraryGroup}:worldfinder-api:${libraryVersion}"
+    coreArtifacts "${libraryGroup}:worldfinder-core:${libraryVersion}"
+}
+
+tasks.register('verifyResolvedDependencies') {
+    group = 'verification'
+    description = 'Resolves the published libraries from a completely separate Gradle build.'
+
+    doLast {
+        Set<String> apiFiles = configurations.apiArtifacts.resolve()*.name as Set
+        Set<String> coreFiles = configurations.coreArtifacts.resolve()*.name as Set
+        String apiJar = "worldfinder-api-${libraryVersion}.jar"
+        String coreJar = "worldfinder-core-${libraryVersion}.jar"
+
+        if (!apiFiles.contains(apiJar)) {
+            throw new GradleException("External API resolution failed: ${apiFiles}")
+        }
+        if (!coreFiles.contains(coreJar) || !coreFiles.contains(apiJar)) {
+            throw new GradleException(
+                    "Core must resolve itself and its transitive API dependency: ${coreFiles}")
+        }
+    }
+}

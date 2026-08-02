@@ -2,33 +2,6 @@ plugins {
     id 'base'
 }
 
-abstract class VerifyPublishedLibraries extends DefaultTask {
-    @Classpath
-    abstract ConfigurableFileCollection getApiArtifacts()
-
-    @Classpath
-    abstract ConfigurableFileCollection getCoreArtifacts()
-
-    @Input
-    abstract Property<String> getLibraryVersion()
-
-    @TaskAction
-    void verifyArtifacts() {
-        Set<String> apiFiles = apiArtifacts.files*.name as Set
-        Set<String> coreFiles = coreArtifacts.files*.name as Set
-        String apiJar = "worldfinder-api-${libraryVersion.get()}.jar"
-        String coreJar = "worldfinder-core-${libraryVersion.get()}.jar"
-
-        if (!apiFiles.contains(apiJar)) {
-            throw new GradleException("External API resolution failed: ${apiFiles}")
-        }
-        if (!coreFiles.contains(coreJar) || !coreFiles.contains(apiJar)) {
-            throw new GradleException(
-                    "Core must resolve itself and its transitive API dependency: ${coreFiles}")
-        }
-    }
-}
-
 def releaseGroup = providers.gradleProperty('mod_group').get()
 def releaseVersion = providers.gradleProperty('mod_version').get()
 def configuredRepositoryPath = providers.gradleProperty('worldfinder_maven_repository').orNull
@@ -74,29 +47,6 @@ allprojects {
     }
 }
 
-repositories {
-    maven {
-        name = 'worldFinderPrepared'
-        url = releaseRepositoryDirectory.toURI()
-    }
-}
-
-configurations {
-    publishedApi {
-        canBeConsumed = false
-        canBeResolved = true
-    }
-    publishedCore {
-        canBeConsumed = false
-        canBeResolved = true
-    }
-}
-
-dependencies {
-    publishedApi "${releaseGroup}:worldfinder-api:${releaseVersion}"
-    publishedCore "${releaseGroup}:worldfinder-core:${releaseVersion}"
-}
-
 def publishLibraries = tasks.register('publishLibraries') {
     group = 'publishing'
     description = 'Publishes WorldFinder API and Core to the prepared local Maven repository.'
@@ -104,14 +54,23 @@ def publishLibraries = tasks.register('publishLibraries') {
     dependsOn ':common:publishMavenJavaPublicationToWorldFinderLocalRepository'
 }
 
-def verifyPublishedLibraries = tasks.register(
-        'verifyPublishedLibraries', VerifyPublishedLibraries) {
+def wrapperCommand = System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')
+        ? rootProject.file('gradlew.bat').absolutePath
+        : rootProject.file('gradlew').absolutePath
+
+def verifyPublishedLibraries = tasks.register('verifyPublishedLibraries', Exec) {
     group = 'verification'
     description = 'Resolves API and Core as an external Maven consumer, including Core transitivity.'
     dependsOn publishLibraries
-    apiArtifacts.from(configurations.publishedApi)
-    coreArtifacts.from(configurations.publishedCore)
-    libraryVersion.set(releaseVersion)
+    workingDir rootProject.projectDir
+    commandLine wrapperCommand,
+            '--no-daemon',
+            '-p', rootProject.file('verification/consumer').absolutePath,
+            'verifyResolvedDependencies',
+            "-PworldfinderRepository=${releaseRepositoryDirectory.absolutePath}",
+            "-PworldfinderGroup=${releaseGroup}",
+            "-PworldfinderVersion=${releaseVersion}",
+            '--console=plain'
 }
 
 def libraryBundleDirectory = layout.buildDirectory.dir('release/libraries')
