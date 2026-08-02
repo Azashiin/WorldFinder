@@ -1,0 +1,468 @@
+{
+  "schemaVersion": 1,
+  "loaders": [
+    "fabric",
+    "neoforge"
+  ],
+  "targets": [
+    {
+      "id": "mc1_21_1",
+      "minecraftVersion": "1.21.1",
+      "apiFamily": "A0",
+      "worldgenBinding": "W0",
+      "generationSemantics": "worldfinder:vanilla_normal/1_21_1",
+      "javaVersion": 21,
+      "waypoints": {
+        "journeymap": {
+          "family": "JM_LEGACY",
+          "fabric": { "apiVersion": "2.0.0-1.21.1" },
+          "neoforge": { "apiVersion": "2.0.0-1.21.1" }
+        },
+        "xaero": {
+          "family": "XAERO_TP",
+          "identifierFamily": "X_RL",
+          "minimumVersion": "26.2.0",
+          "fabric": { "artifactMinecraftVersion": "1.21.1", "version": "26.4.2" },
+          "neoforge": { "artifactMinecraftVersion": "1.21.1", "version": "26.4.2" }
+        },
+        "ftbchunks": {
+          "family": "FTB0",
+          "fabric": { "version": "2101.1.21" },
+          "neoforge": { "version": "2101.1.21" }
+        }
+      },
+      "fabric": {
+        "loader": "0.19.3",
+        "api": "0.116.13+1.21.1",
+        "loom": "1.17.17",
+        "mappingNamespace": "intermediary"
+      },
+      "neoforge": {
+        "version": "21.1.235",
+        "moddev": "2.0.143"
+      }
+    },
+    {
+      "id": "mc1_21_2",
+      "minecraftVersion": "1.21.2",
+      "apiFamily": "A1",
+      "worldgenBinding": "W1",
+      "generationSemantics": "worldfinder:vanilla_normal/1_21_2",
+      "javaVersion": 21,
+      "fabric": {
+        "loader": "0.19.3",
+        "api": "0.106.1+1.21.2",
+        "loom": "1.17.17",
+        "mappingNamespace": "intermediary"
+      },
+      "neoforge": {
+        "version": "21.2.1-beta",
+        "moddev": "2.0.143"
+      }
+    },
+    {
+      "id": "mc1_21_3",
+      "minecraftVersion": "1.21.3",
+      "apiFamily": "A1",
+      "worldgenBinding": "W1",
+      "generationSemantics": "worldfinder:vanilla_normal/1_21_2",
+      "javaVersion": 21,
+      "waypoints": {
+        "journeymap": {
+          "family": "JM_LEGACY",
+          "fabric": { "apiVersion": "2.0.0-1.21.4-SNAPSHOT" },
+          "neoforge": { "apiVersion": "2.0.0-1.21.4-SNAPSHOT" }
+        }
+      },
+      "fabric": {
+        "loader": "0.19.3",
+        "api": "0.114.1+1.21.3",
+        "loom": "1.17.17",
+        "mappingNamespace": "intermediary"
+      },
+      "neoforge": {
+        "version": "21.3.97",
+        "moddev": "2.0.143"
+      }
+    },
+    {
+      "id": "mc1_21_4",
+      "minecraftVersion": "1.21.4",
+      "apiFamily": "A2",
+      "worldgenBinding": "W1",
+      "generationSemantics": "worldfinder:vanilla_normal/1_21_4",
+      "javaVersion": 21,
+      "waypoints": {
+        "journeymap": {
+          "family": "JM_LEGACY",
+          "fabric": { "apiVersion": "2.0.0-1.21.4-SNAPSHOT" },
+          "neoforge": { "apiVersion": "2.0.0-1.21.4-SNAPSHOT" }
+        },
+        "xaero": {
+          "family": "XAERO_TP",
+          "identifierFamily": "X_RL",
+          "minimumVersion": "26.2.0",
+          "fabric": { "artifactMinecraftVersion": "1.21.4", "version": "26.4.2" },
+          "neoforge": { "artifactMinecraftVersion": "1.21.4", "version": "26.4.2" }
+        }
+      },
+      "fabric": {
+        "loader": "0.19.3",
+        "api": "0.119.4+1.21.4",
+        "loom": "1.17.17",
+        "mappingNamespace": "intermediary"
+      },
+      "neoforge": {
+        "version": "21.4.157",
+        "moddev": "2.0.143"
+      }
+    },
+    {
+      "id": "mc1_21_5",
+      "minecraftVersion": "1.21.5",
+      "apiFamily": "A3",
+      "worldgenBinding": "W1",
+      "generationSemantics": "worldfinder:vanilla_normal/1_21_5",
+      "javaVersion": 21,
+      "waypoints": {
+        "journeymap": {
+          "family": "JM_LEGACY",
+          "fabric": { "apiVersion": "2.0.0-1.21.5-SNAPSHOT" },
+          "neoforge": { "apiVersion": "2.0.0-1.21.5-SNAPSHOT" }
+        },
+        "xaero": {
+          "family": "XAERO_TP",
+          "identifierFamily": "X_RL",
+          "minimumVersion": "26.2.0",
+          "fabric": { "artifactMinecraftVersion": "1.21.5", "version": "26.4.2" },
+          "neoforge": { "artifactMinecraftVersion": "1.21.5", "version": "26.4.2" }
+        }
+      },
+      "fabric": {
+        "loader": "0.19.3",
+        "api": "0.128.2+1.21.5",
+        "loom": "1.17.17",
+        "mappingNamespace": "intermediary"
+      },
+      "neoforge": {
+        "version": "21.5.98",
+        "moddev": "2.0.143"
+      }
+    },
+    {
+      "id": "mc1_21_6",
+      "minecraftVersion": "1.21.6",
+      "apiFamily": "A4",
+      "worldgenBinding": "W1",
+      "generationSemantics": "worldfinder:vanilla_normal/1_21_6",
+      "javaVersion": 21,
+      "waypoints": {
+        "journeymap": {
+          "family": "JM_LEGACY",
+          "fabric": { "apiVersion": "2.0.0-1.21.6-SNAPSHOT" },
+          "neoforge": { "apiVersion": "2.0.0-1.21.6-SNAPSHOT" }
+        }
+      },
+      "fabric": {
+        "loader": "0.19.3",
+        "api": "0.128.2+1.21.6",
+        "loom": "1.17.17",
+        "mappingNamespace": "intermediary"
+      },
+      "neoforge": {
+        "version": "21.6.20-beta",
+        "moddev": "2.0.143"
+      }
+    },
+    {
+      "id": "mc1_21_7",
+      "minecraftVersion": "1.21.7",
+      "apiFamily": "A4",
+      "worldgenBinding": "W1",
+      "generationSemantics": "worldfinder:vanilla_normal/1_21_6",
+      "javaVersion": 21,
+      "waypoints": {
+        "journeymap": {
+          "family": "JM_LEGACY",
+          "fabric": { "apiVersion": "2.0.0-1.21.7-SNAPSHOT" },
+          "neoforge": { "apiVersion": "2.0.0-1.21.7-SNAPSHOT" }
+        }
+      },
+      "fabric": {
+        "loader": "0.19.3",
+        "api": "0.129.0+1.21.7",
+        "loom": "1.17.17",
+        "mappingNamespace": "intermediary"
+      },
+      "neoforge": {
+        "version": "21.7.25-beta",
+        "moddev": "2.0.143"
+      }
+    },
+    {
+      "id": "mc1_21_8",
+      "minecraftVersion": "1.21.8",
+      "apiFamily": "A4",
+      "worldgenBinding": "W1",
+      "generationSemantics": "worldfinder:vanilla_normal/1_21_6",
+      "javaVersion": 21,
+      "waypoints": {
+        "journeymap": {
+          "family": "JM_LEGACY",
+          "fabric": { "apiVersion": "2.0.0-1.21.7-SNAPSHOT" },
+          "neoforge": { "apiVersion": "2.0.0-1.21.7-SNAPSHOT" }
+        },
+        "xaero": {
+          "family": "XAERO_TP",
+          "identifierFamily": "X_RL",
+          "minimumVersion": "26.2.0",
+          "fabric": { "artifactMinecraftVersion": "1.21.8", "version": "26.4.2" },
+          "neoforge": { "artifactMinecraftVersion": "1.21.8", "version": "26.4.2" }
+        }
+      },
+      "fabric": {
+        "loader": "0.19.3",
+        "api": "0.136.1+1.21.8",
+        "loom": "1.17.17",
+        "mappingNamespace": "intermediary"
+      },
+      "neoforge": {
+        "version": "21.8.54",
+        "moddev": "2.0.143"
+      }
+    },
+    {
+      "id": "mc1_21_9",
+      "minecraftVersion": "1.21.9",
+      "apiFamily": "A5",
+      "worldgenBinding": "W2",
+      "generationSemantics": "worldfinder:vanilla_normal/1_21_9",
+      "javaVersion": 21,
+      "waypoints": {
+        "journeymap": {
+          "family": "JM_LEGACY",
+          "fabric": { "apiVersion": "2.0.0-1.21.9-SNAPSHOT" },
+          "neoforge": { "apiVersion": "2.0.0-1.21.9-SNAPSHOT" }
+        }
+      },
+      "fabric": {
+        "loader": "0.19.3",
+        "api": "0.134.1+1.21.9",
+        "loom": "1.17.17",
+        "mappingNamespace": "intermediary"
+      },
+      "neoforge": {
+        "version": "21.9.16-beta",
+        "moddev": "2.0.143"
+      }
+    },
+    {
+      "id": "mc1_21_10",
+      "minecraftVersion": "1.21.10",
+      "apiFamily": "A5",
+      "worldgenBinding": "W2",
+      "generationSemantics": "worldfinder:vanilla_normal/1_21_9",
+      "javaVersion": 21,
+      "waypoints": {
+        "journeymap": {
+          "family": "JM_LEGACY",
+          "fabric": { "apiVersion": "2.0.0-1.21.10-SNAPSHOT" },
+          "neoforge": { "apiVersion": "2.0.0-1.21.10-SNAPSHOT" }
+        },
+        "xaero": {
+          "family": "XAERO_TP",
+          "identifierFamily": "X_RL",
+          "minimumVersion": "26.2.0",
+          "fabric": { "artifactMinecraftVersion": "1.21.10", "version": "26.4.2" },
+          "neoforge": { "artifactMinecraftVersion": "1.21.10", "version": "26.4.2" }
+        }
+      },
+      "fabric": {
+        "loader": "0.19.3",
+        "api": "0.138.4+1.21.10",
+        "loom": "1.17.17",
+        "mappingNamespace": "intermediary"
+      },
+      "neoforge": {
+        "version": "21.10.64",
+        "moddev": "2.0.143"
+      }
+    },
+    {
+      "id": "mc1_21_11",
+      "minecraftVersion": "1.21.11",
+      "apiFamily": "A6",
+      "worldgenBinding": "W3",
+      "generationSemantics": "worldfinder:vanilla_normal/1_21_9",
+      "javaVersion": 21,
+      "waypoints": {
+        "journeymap": {
+          "family": "JM_LEGACY",
+          "fabric": { "apiVersion": "2.0.0-1.21.11" },
+          "neoforge": { "apiVersion": "2.0.0-1.21.11" }
+        },
+        "xaero": {
+          "family": "XAERO_TP",
+          "identifierFamily": "X_ID",
+          "minimumVersion": "26.2.0",
+          "fabric": { "artifactMinecraftVersion": "1.21.11", "version": "26.4.2" },
+          "neoforge": { "artifactMinecraftVersion": "1.21.11", "version": "26.4.2" }
+        },
+        "ftbchunks": {
+          "family": "FTB0",
+          "fabric": { "version": "2111.1.1" },
+          "neoforge": { "version": "2111.1.1" }
+        }
+      },
+      "fabric": {
+        "loader": "0.19.3",
+        "api": "0.141.6+1.21.11",
+        "loom": "1.17.17",
+        "mappingNamespace": "intermediary"
+      },
+      "neoforge": {
+        "version": "21.11.45",
+        "moddev": "2.0.143"
+      }
+    },
+    {
+      "id": "mc26_1",
+      "minecraftVersion": "26.1",
+      "apiFamily": "A7",
+      "worldgenBinding": "W4",
+      "generationSemantics": "worldfinder:vanilla_normal/1_21_9",
+      "javaVersion": 25,
+      "waypoints": {
+        "journeymap": {
+          "family": "JM_LEGACY",
+          "fabric": { "apiVersion": "2.0.0-26.1-SNAPSHOT" },
+          "neoforge": { "apiVersion": "2.0.0-26.1-SNAPSHOT" }
+        },
+        "xaero": {
+          "family": "XAERO_TP",
+          "identifierFamily": "X_ID",
+          "minimumVersion": "26.2.0",
+          "fabric": { "artifactMinecraftVersion": "26.1.2", "version": "26.4.2" }
+        },
+        "ftbchunks": {
+          "family": "FTB0",
+          "fabric": { "version": "26.1.2.3" }
+        }
+      },
+      "fabric": {
+        "loader": "0.19.3",
+        "api": "0.145.1+26.1",
+        "loom": "1.17.17",
+        "mappingNamespace": "official"
+      },
+      "neoforge": {
+        "version": "26.1.0.19-beta",
+        "moddev": "2.0.143"
+      }
+    },
+    {
+      "id": "mc26_1_1",
+      "minecraftVersion": "26.1.1",
+      "apiFamily": "A7",
+      "worldgenBinding": "W4",
+      "generationSemantics": "worldfinder:vanilla_normal/1_21_9",
+      "javaVersion": 25,
+      "waypoints": {
+        "journeymap": {
+          "family": "JM_LEGACY",
+          "fabric": { "apiVersion": "2.0.0-26.1-SNAPSHOT" },
+          "neoforge": { "apiVersion": "2.0.0-26.1-SNAPSHOT" }
+        },
+        "xaero": {
+          "family": "XAERO_TP",
+          "identifierFamily": "X_ID",
+          "minimumVersion": "26.2.0",
+          "fabric": { "artifactMinecraftVersion": "26.1.2", "version": "26.4.2" }
+        },
+        "ftbchunks": {
+          "family": "FTB0",
+          "fabric": { "version": "26.1.2.3" }
+        }
+      },
+      "fabric": {
+        "loader": "0.19.3",
+        "api": "0.145.4+26.1.1",
+        "loom": "1.17.17",
+        "mappingNamespace": "official"
+      },
+      "neoforge": {
+        "version": "26.1.1.15-beta",
+        "moddev": "2.0.143"
+      }
+    },
+    {
+      "id": "mc26_1_2",
+      "minecraftVersion": "26.1.2",
+      "apiFamily": "A7",
+      "worldgenBinding": "W4",
+      "generationSemantics": "worldfinder:vanilla_normal/1_21_9",
+      "javaVersion": 25,
+      "waypoints": {
+        "journeymap": {
+          "family": "JM_LEGACY",
+          "fabric": { "apiVersion": "2.0.0-26.1" },
+          "neoforge": { "apiVersion": "2.0.0-26.1" }
+        },
+        "xaero": {
+          "family": "XAERO_TP",
+          "identifierFamily": "X_ID",
+          "minimumVersion": "26.2.0",
+          "fabric": { "artifactMinecraftVersion": "26.1.2", "version": "26.4.2" },
+          "neoforge": { "artifactMinecraftVersion": "26.1.2", "version": "26.4.2" }
+        },
+        "ftbchunks": {
+          "family": "FTB0",
+          "fabric": { "version": "26.1.2.6" },
+          "neoforge": { "version": "26.1.2.6" }
+        }
+      },
+      "fabric": {
+        "loader": "0.19.3",
+        "api": "0.155.2+26.1.2",
+        "loom": "1.17.17",
+        "mappingNamespace": "official"
+      },
+      "neoforge": {
+        "version": "26.1.2.94",
+        "moddev": "2.0.143"
+      }
+    },
+    {
+      "id": "mc26_2",
+      "minecraftVersion": "26.2",
+      "apiFamily": "A8",
+      "worldgenBinding": "W5",
+      "generationSemantics": "worldfinder:vanilla_normal/26_2",
+      "javaVersion": 25,
+      "waypoints": {
+        "journeymap": {
+          "family": "JM_MODERN",
+          "fabric": { "apiVersion": "26.2-2.0.0" },
+          "neoforge": { "apiVersion": "26.2-2.0.0" }
+        },
+        "xaero": {
+          "family": "XAERO_TP",
+          "identifierFamily": "X_ID",
+          "minimumVersion": "26.2.0",
+          "fabric": { "artifactMinecraftVersion": "26.2", "version": "26.4.2" },
+          "neoforge": { "artifactMinecraftVersion": "26.2", "version": "26.4.2" }
+        }
+      },
+      "fabric": {
+        "loader": "0.19.3",
+        "api": "0.156.0+26.2",
+        "loom": "1.17.17",
+        "mappingNamespace": "official"
+      },
+      "neoforge": {
+        "version": "26.2.0.41-beta",
+        "moddev": "2.0.143"
+      }
+    }
+  ]
+}

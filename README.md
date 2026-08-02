@@ -1,64 +1,86 @@
-# World Finder
+# WorldFinder API and Core
 
-World Finder is a client-side NeoForge seed map for vanilla Minecraft worlds.
+This repository contains the loader-neutral libraries used to create compatibility addons for
+WorldFinder. It intentionally contains only the public API, the Minecraft-independent Core, and
+their developer documentation. The WorldFinder mod, its user interface, native Minecraft adapters,
+and Fabric or NeoForge builds are not part of this repository.
 
-It is designed as an in-game alternative to ChunkBase for Minecraft `26.1.2`: enter a server seed manually, or let the mod read the seed automatically in singleplayer, then browse biomes and seed-based structure markers from inside the game.
+## Modules
 
-This project is currently a beta. Use it as a map/finder helper, not as a guaranteed replacement for `/locate`.
+- `worldfinder-api` is the stable public contract for addons. It defines biome and structure
+  targets, world-generation queries and results, cancellation, capabilities, vertical biome
+  sampling, addon registration, and optional waypoint providers.
+- `worldfinder-core` provides Minecraft-independent map, cache, resolver-chain, and addon
+  orchestration services. It exposes `worldfinder-api` transitively and is intended for advanced
+  integrations and testing tools.
 
-## Requirements
+Both libraries target Java 21 and contain no Minecraft, Fabric, NeoForge, or map-mod classes.
 
-- Minecraft `26.1.2`
-- NeoForge `26.1.2`
-- Client side only
-- Vanilla world generation
+## Using the API
 
-## Main Features
+Addon projects should compile against the API without bundling it:
 
-- Fullscreen seed map opened with `M` by default.
-- Singleplayer seed auto-detection.
-- Manual seed input for multiplayer servers where the owner shared the seed.
-- Overworld, Nether, and End map views.
-- Biome colors with `Fast` and `Detail` render modes plus separate `Surf` and `Deep` layers.
-- Biome search and biome highlighting.
-- Seed-based structure markers using Minecraft item icons.
-- Structure filter grid with persistent enabled/disabled filters.
-- Completed structure markers saved locally.
-- Slime chunk overlay.
-- Chunk grid toggle.
-- Player marker using the player head/skin when available.
-- World spawn marker.
-- End navigation helper with a 1000-block radius overlay.
-- Right-click map menu for chat, teleport when allowed, and waypoint creation.
-- Optional waypoint integration for JourneyMap, Xaero's Minimap/World Map, and FTB Chunks when those mods are installed.
+```groovy
+repositories {
+    maven {
+        url = uri('https://azashiin.github.io/WorldFinder/')
+    }
+    mavenCentral()
+}
 
-## Known Limits
+dependencies {
+    compileOnly 'fr.asashiin.worldfinder:worldfinder-api:0.2.0'
+}
+```
 
-- The mod is vanilla-only. Modded world generation is not supported.
-- Multiplayer accuracy depends on entering the exact server seed and matching the vanilla version.
-- Teleport requires permission to run teleport commands.
-- Some structure/template details are seed-based predictions and should still be checked in-game.
-- The End terrain view is seed-based and still needs more visual testing at every zoom level.
+The installed WorldFinder mod supplies the API at runtime. Addons must declare WorldFinder as a
+required dependency in their Fabric or NeoForge metadata and must not shadow, include, or package
+the API inside their own JAR.
 
-## Controls
+The complete registration, resolver, vertical sampling, threading, and loader metadata contracts
+are documented in [the addon guide](docs/ADDON_API.md).
 
-- `M`: open World Finder.
-- Mouse drag: pan the map.
-- Mouse wheel: zoom toward the cursor.
-- Max zoom-out is limited to `1px / 4 blocks`.
-- Left click a structure filter: toggle it.
-- Right click a structure filter: show only that structure.
-- Right click the map: open the context menu.
-- Ctrl + click the map: toggle the biome under the cursor as a biome filter.
+## Building locally
 
-## Credits And Licenses
+Windows:
 
-World Finder is licensed under `LGPL-3.0-or-later`.
+```powershell
+.\gradlew.bat verifyLibraries
+```
 
-The project uses or adapts work from:
+Linux or macOS:
 
-- `xpple/SeedMapper`: seed-map cache/executor design and generated Java bindings, `LGPL-3.0-or-later`.
-- `xpple/cubiomes`: Java bindings around cubiomes, `MIT`.
-- Cubitect's `cubiomes`: vanilla seed/worldgen algorithms, `MIT`.
+```bash
+./gradlew verifyLibraries
+```
 
-See `NOTICE.md` for details.
+The verification task runs API/Core tests, checks the frozen API 0.2 binary surface, validates
+Javadocs, publishes both modules to an isolated Maven repository, resolves them as an external
+consumer, and collects their binary, source, and Javadoc JARs under `build/release/libraries`.
+
+To test an unpublished checkout from another project, publish locally with:
+
+```powershell
+.\gradlew.bat publishLibraries
+```
+
+The Maven repository is written to `build/repository` by default. It can be redirected with
+`-Pworldfinder_maven_repository=<directory>`.
+
+Maintainers can publish the versioned Maven metadata and Javadocs through the manual
+`Publish API and Core` GitHub Actions workflow. The generated artifacts are kept on the dedicated
+`developer-pages` branch; generated binaries are never committed to `main`.
+
+## Compatibility policy
+
+`worldfinder-api` preserves source and binary compatibility throughout the `0.2.x` line. Breaking
+changes require a new API line and a documented migration path. `worldfinder-core` remains an
+implementation-oriented library and does not guarantee binary compatibility before 1.0.
+
+An addon must explicitly report unsupported world-generation profiles, dimensions, sampling modes,
+or heights. It must never interpret an unsupported underground request as a surface request or
+return guessed data as an exact result.
+
+## License
+
+WorldFinder API and Core are licensed under `LGPL-3.0-or-later`. See [LICENSE](LICENSE).

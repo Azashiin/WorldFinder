@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WorldFinder developer repository</title>
+  <style>
+    :root { color-scheme: dark; font-family: system-ui, sans-serif; }
+    body { max-width: 760px; margin: 4rem auto; padding: 0 1.25rem; line-height: 1.55; }
+    code { background: #24242c; border-radius: .3rem; padding: .15rem .35rem; }
+    pre { overflow-x: auto; background: #24242c; border-radius: .5rem; padding: 1rem; }
+    a { color: #9ac7ff; }
+  </style>
+</head>
+<body>
+  <h1>WorldFinder API and Core</h1>
+  <p>Public Maven artifacts and versioned Javadocs for WorldFinder compatibility addons.</p>
+
+  <h2>Gradle repository</h2>
+  <pre><code>repositories {
+    maven { url = uri("https://azashiin.github.io/WorldFinder/") }
+}
+
+dependencies {
+    compileOnly("fr.asashiin.worldfinder:worldfinder-api:0.2.0")
+}</code></pre>
+
+  <p>Do not embed the API in an addon. The installed WorldFinder mod supplies it at runtime.</p>
+
+  <h2>Documentation</h2>
+  <ul>
+    <li><a href="javadoc/0.2.0/api/">WorldFinder API 0.2.0 Javadocs</a></li>
+    <li><a href="javadoc/0.2.0/core/">WorldFinder Core 0.2.0 Javadocs</a></li>
+    <li><a href="https://github.com/Azashiin/WorldFinder/blob/main/docs/ADDON_API.md">Addon author guide</a></li>
+  </ul>
+</body>
+</html>

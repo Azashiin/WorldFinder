@@ -1,0 +1,58 @@
+apply plugin: 'maven-publish'
+
+base {
+    archivesName = publishedArtifactId
+}
+
+def configuredRepositoryPath = providers.gradleProperty('worldfinder_maven_repository').orNull
+def localRepositoryDirectory = configuredRepositoryPath
+        ? rootProject.file(configuredRepositoryPath)
+        : rootProject.layout.buildDirectory.dir('repository').get().asFile
+def configuredProjectUrl = providers.gradleProperty('project_url').get()
+def configuredScmUrl = providers.gradleProperty('scm_url').get()
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifactId = publishedArtifactId
+
+            pom {
+                name = publishedDisplayName
+                description = project.description
+                inceptionYear = '2026'
+
+                url = configuredProjectUrl
+
+                licenses {
+                    license {
+                        name = 'GNU Lesser General Public License v3.0 or later'
+                        url = 'https://www.gnu.org/licenses/lgpl-3.0.html'
+                        distribution = 'repo'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id = 'Asashiin'
+                        name = 'Asashiin'
+                    }
+                }
+
+                scm {
+                    connection = "scm:git:${configuredScmUrl}"
+                    developerConnection = "scm:git:${configuredScmUrl}"
+                    url = configuredScmUrl
+                    tag = "v${project.version}"
+                }
+            }
+        }
+    }
+
+    repositories {
+        maven {
+            name = 'worldFinderLocal'
+            url = localRepositoryDirectory.toURI()
+        }
+    }
+}
