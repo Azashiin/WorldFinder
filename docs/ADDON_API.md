@@ -187,11 +187,16 @@ registered, an opaque screen-session token used to isolate asynchronous caches. 
 attributes as optional; never persist the session token or make
 generated output depend on undocumented keys.
 
-Every exact native fallback is intentionally limited to that release's vanilla Normal profile. Automatic seed
-reuse is disabled when the integrated world exposes an unrecognized preset, biome source, or
-external world-generation data. The screen then labels manual input as a vanilla Normal preview.
+Every exact native fallback is intentionally limited to that release's vanilla Normal profile.
+The presence of another mod does not by itself disable this baseline. Automatic seed reuse is
+disabled only when the integrated world exposes an unrecognized active preset or biome source, or
+data that actually replaces Minecraft's vanilla generation definitions. With a manually entered
+seed, the screen then labels its result as a vanilla Normal preview.
+
 An addon must return `handled` results for generation it owns; it must not rely on the vanilla
-fallback reproducing Amplified, Large Biomes, Single Biome, datapack, or modded terrain.
+fallback reproducing Amplified, Large Biomes, Single Biome, datapack, or modded terrain. Without a
+compatible addon, WorldFinder deliberately keeps displaying the version-specific vanilla reference
+instead of hiding it or claiming to reproduce unsupported custom generation.
 
 ## Resolver selection and fallback
 
@@ -252,15 +257,21 @@ publishes those safe markers, then retries the incomplete cell with bounded back
 addon failure is shown as a partial result. Throw `CancellationException` when the query token is
 cancelled; cancellation is control flow and is not reported as an addon failure.
 
-Only built-in filters that are truthful in the current client context are offered. Across the
-supported releases, template-dependent starts and piece-derived variants require a recognized integrated vanilla world
-with compatible template resources. WorldFinder captures those resources on the server thread and
-uses a private `StructureTemplateManager`; addon/background work never receives Minecraft's live
-reloadable manager. A manual seed entered inside that world can reuse the same templates;
-remote-server and unsupported-world previews cannot and hide those rows.
-An addon that must expose a target in those contexts should register its own namespaced
-`StructureSearchTarget` and handle it, rather than depending on the presence of a reserved built-in
-row.
+WorldFinder's built-in vanilla structure catalog remains available in every supported client
+context. A recognized integrated vanilla world supplies one coherent live resource epoch.
+Remote-server and unsupported-world previews instead use a separate private manager backed by the
+exact vanilla templates bundled with the running Minecraft version. Addon and background work
+never receives Minecraft's live reloadable manager.
+
+A manually entered seed therefore retains template-dependent starts and piece-derived variants
+without requiring WorldFinder on the server. These results remain a reference for that Minecraft
+version's vanilla generation; they do not claim to reproduce a remote server's private datapacks or
+unsupported modded terrain.
+
+A structure addon can replace a built-in target by handling its reserved `worldfinder:*` ID,
+including with an intentionally empty result, or extend the catalog with its own namespaced
+`StructureSearchTarget`. If no addon handles a built-in target, WorldFinder preserves the vanilla
+baseline.
 
 ## Regional biome contract
 
