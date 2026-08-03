@@ -3,6 +3,17 @@
 All notable changes to WorldFinder API and Core are documented in this file. The published API
 follows Semantic Versioning.
 
+## [Unreleased]
+
+### Documentation
+
+- Corrected the addon guide to describe WorldFinder 0.2.1's restored vanilla fallback on remote,
+  modded, and unsupported-world previews.
+- Clarified that addons replace or extend the generation they explicitly handle, while unhandled
+  queries retain WorldFinder's version-specific vanilla reference.
+- Confirmed that this correction does not change the API or Core binary surface. The published
+  `0.2.0` coordinates remain compatible with every WorldFinder `0.2.x` client.
+
 ## [0.2.0] - 2026-08-02
 
 ### Added
