@@ -81,6 +81,21 @@ An addon must explicitly report unsupported world-generation profiles, dimension
 or heights. It must never interpret an unsupported underground request as a surface request or
 return guessed data as an exact result.
 
+### Vanilla baseline and addon ownership
+
+The WorldFinder client always retains the version-specific vanilla reference as its final fallback.
+An addon's handled result replaces or extends the part of generation that addon owns; an unhandled
+query continues through the resolver chain and eventually uses the vanilla engine.
+
+This baseline remains available in local, remote, and modded environments. Remote and unsupported
+world previews use the vanilla structure templates bundled with the matching Minecraft client, so
+a manually entered seed keeps the complete vanilla structure catalog without requiring
+WorldFinder on the server. The result is still a vanilla reference: reproducing custom datapacks or
+modded generation requires a compatibility addon.
+
+The Minecraft-specific fallback implementation and template manager belong to the WorldFinder
+client modules and are intentionally not part of this loader-neutral API/Core repository.
+
 ## License
 
 WorldFinder API and Core are licensed under `LGPL-3.0-or-later`. See [LICENSE](LICENSE).
