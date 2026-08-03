@@ -260,8 +260,8 @@ cancelled; cancellation is control flow and is not reported as an addon failure.
 WorldFinder's built-in vanilla structure catalog remains available in every supported client
 context. A recognized integrated vanilla world supplies one coherent live resource epoch.
 Remote-server and unsupported-world previews instead use a separate private manager backed by the
-exact vanilla templates bundled with the running Minecraft version. Addon and background work
-never receives Minecraft's live reloadable manager.
+exact vanilla templates bundled with the running Minecraft version. Addon resolvers and background
+workers never receive Minecraft's live reloadable manager.
 
 A manually entered seed therefore retains template-dependent starts and piece-derived variants
 without requiring WorldFinder on the server. These results remain a reference for that Minecraft
